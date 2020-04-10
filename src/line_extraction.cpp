@@ -241,9 +241,9 @@ void LineExtraction::mergeLines()
 {
   std::vector<Line> merged_lines;
 
-  for (std::size_t i = 0; i < lines_.size(); ++i)
+  for (std::size_t i = 1; i <= lines_.size(); ++i)
   {
-    int16_t pos = i;
+    int16_t pos = i % lines_.size();
     int16_t prevPos = i - 1;
     if(prevPos < 0){
       prevPos = prevPos + lines_.size();
@@ -281,15 +281,22 @@ void LineExtraction::mergeLines()
       // Project the new endpoints
       merged_line.projectEndpoints();
       lines_[pos] = merged_line;
+
+      // if again at the first line segment than remove the first in the merged list and add this one
+      // to prevent from duplicates
+      if (i == lines_.size())
+      {
+        merged_lines.erase(merged_lines.begin());
+        merged_lines.push_back(lines_[pos]);
+      }
     }
     else
     {
-      merged_lines.push_back(lines_[prevPos]);
-    }
-
-    if (pos == lines_.size() - 1)
-    {
-      merged_lines.push_back(lines_[pos]);
+      //to prevent duplicates start adding previous segments when in positive range
+      if(i > 0)
+      {
+        merged_lines.push_back(lines_[prevPos]);
+      }
     }
   }
   lines_ = merged_lines;
