@@ -153,7 +153,7 @@ void LineExtractionROS::populateMarkerMsg(const std::vector<Line> &lines,
   marker_msg.ns = "line_extraction";
   marker_msg.id = 0;
   marker_msg.type = visualization_msgs::Marker::LINE_LIST;
-  marker_msg.scale.x = 0.1;
+  marker_msg.scale.x = 0.05;
   marker_msg.color.r = 1.0;
   marker_msg.color.g = 0.0;
   marker_msg.color.b = 0.0;
